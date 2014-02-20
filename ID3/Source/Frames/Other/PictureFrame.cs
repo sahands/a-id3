@@ -20,6 +20,7 @@ namespace Achamenes.ID3.Frames
 			}
 		}
 
+		private byte[] _raw_data = null;
 		private System.Drawing.Image _image;
 		public System.Drawing.Image Picture
 		{
@@ -27,9 +28,13 @@ namespace Achamenes.ID3.Frames
 			{
 				return _image;
 			}
-			set
+		}
+
+		public byte[] RawData 
+		{
+			get 
 			{
-				_image = value;
+				return this._raw_data;
 			}
 		}
 
@@ -68,6 +73,17 @@ namespace Achamenes.ID3.Frames
 			}
 			this._image=image;
 		}
+
+		public PictureFrame(byte[] raw_data, System.Drawing.Image image, string description, PictureType pictureType)
+			: this(image, description, pictureType)
+		{
+			if(raw_data==null)
+			{
+				throw new ArgumentNullException("The passed image raw data can not be null.");
+			}
+			this._raw_data = raw_data;
+		}
+
 
 		public static Achamenes.ID3.Frames.Parsers.FrameParser CreateParser(ID3v2MajorVersion version, string frameID)
 		{

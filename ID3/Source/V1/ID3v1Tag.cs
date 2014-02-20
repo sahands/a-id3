@@ -293,6 +293,8 @@ namespace Achamenes.ID3.V1
 				information.Year=year.Text;
 			if(track!=null)
 				information.TrackNumber=(byte)track.TrackNumber;
+			if (title != null)
+				information.Title=title.Text;
 
 			return information;
 		}

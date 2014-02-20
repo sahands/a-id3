@@ -35,7 +35,7 @@ namespace Achamenes.ID3.Fields
 
 		public override int Parse(byte[] data, int offset)
 		{
-			int read=base.Parse(data, offset);
+			base.Parse(data, offset);
 			if(data.Length<offset+this.Length)
 			{
 				throw new FieldParsingException(this.GetType(), "Expected fixed length text field was not found in frame.");

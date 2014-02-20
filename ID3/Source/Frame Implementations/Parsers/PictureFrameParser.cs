@@ -28,9 +28,16 @@ namespace Achamenes.ID3.Frames.Parsers
 
 
 			System.IO.MemoryStream memoryImageBuffer=new System.IO.MemoryStream(dataField.Data);
-			System.Drawing.Image image=System.Drawing.Image.FromStream(memoryImageBuffer);
 
-			return new PictureFrame(image, descriptionField.Text, (PictureType)pictureTypeField.Value);
+			try
+			{
+				System.Drawing.Image image=System.Drawing.Image.FromStream(memoryImageBuffer);
+				return new PictureFrame(dataField.Data, image, descriptionField.Text, (PictureType)pictureTypeField.Value);
+			}
+			catch(ArgumentException)
+			{
+				throw new FrameParsingException("Unrecognized picture format found in Picture frame.");
+			}
 		}
 	}
 
@@ -60,7 +67,7 @@ namespace Achamenes.ID3.Frames.Parsers
 			try
 			{
 				System.Drawing.Image image=System.Drawing.Image.FromStream(memoryImageBuffer);
-				return new PictureFrame(image, descriptionField.Text, (PictureType)pictureTypeField.Value);
+				return new PictureFrame(dataField.Data, image, descriptionField.Text, (PictureType)pictureTypeField.Value);
 			}
 			catch(ArgumentException)
 			{

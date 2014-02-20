@@ -31,7 +31,7 @@ namespace Achamenes.ID3.Fields
 
 		public override int Parse(byte[] data, int offset)
 		{
-			int read=base.Parse(data, offset);
+			base.Parse(data, offset);
 			Encoding encoder=null;
 			if(data[offset]==0xff && data[offset+1]==0xfe)
 			{
