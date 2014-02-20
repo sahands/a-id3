@@ -1,0 +1,233 @@
+Achamenes ID3 Library - Extension Guide
+
+To add compatibility for frame types currently not defined, and 
+possibly your customized frames, do the following. An implementation
+of a "listening history" frame is given to demonstrate the steps.
+
+The structure for the example is:
+Text encoding         $xx
+Last played on date   <text string> $00
+Play count            <text string> $00
+Memo                  <text string according to encoding> $00 (00)
+
+1- Choose the Frame ID for your frame. This is already determined if you are 
+   implementing one of the standard frames.
+
+2- Create the Frame Class
+   The first step is to write a class which will hold the data in the frame
+   in parsed format. This class should be independent of the low-level 
+   implementation of the frame. The class should be derived from the
+   Achamenes.ID3.Frames.Frame class. In our example, we include a date, 
+   an integer, and encoded text field called "Memo".
+   
+   Example:
+   
+[global::System.Serializable]
+public class LastPlayedOnFrame : Frame
+{
+	private DateTime _lastPlayed;	
+
+	public DateTime LastPlayedOn
+	{
+		get { return _lastPlayed;}
+		set { _lastPlayed = value;}
+	}
+
+	private int _playCount;
+
+	public int PlayCount
+	{
+		get
+		{
+			return _playCount;
+		}
+		set
+		{
+			_playCount = value;
+		}
+	}
+
+	private string _memo;
+
+	public string Memo
+	{
+		get
+		{
+			return _memo;
+		}
+		set
+		{
+			_memo = value;
+		}
+	}
+
+	public LastPlayedOnFrame(DateTime lastPlayed, int playCount, string memo)
+		: base()
+	{
+		this.LastPlayedOn=lastPlayed;
+		this.PlayCount=playCount;
+		this.Memo=memo;			
+	}
+
+	public override FrameWriter CreateWriter(ID3v2MajorVersion version, EncodingScheme encoding)
+	{
+		switch(version)
+		{
+			case ID3v2MajorVersion.Version2:
+				return new LastPlayedOnFrameWriter(this, 
+					FrameHeaderWriter.CreateFrameHeaderWriter(version), "XLP", encoding);
+			case ID3v2MajorVersion.Version3:
+			case ID3v2MajorVersion.Version4:
+				return new LastPlayedOnFrameWriter(this, 
+					FrameHeaderWriter.CreateFrameHeaderWriter(version), "XLPO", encoding);
+			default:
+				return null;
+		}
+	}
+
+	public static FrameParser CreateParser(ID3v2MajorVersion version, string frameID)
+	{
+		if(version==ID3v2MajorVersion.Version2 && frameID=="XLP")
+		{
+			return new LastPlayedOnFrameParser();
+		}
+		else if((version == ID3v2MajorVersion.Version3 || version==ID3v2MajorVersion.Version4) 
+			&& frameID=="XLPO")
+		{
+			return new LastPlayedOnFrameParser();
+		}
+		return null;
+	}
+}
+
+
+3- Create a Parser Class
+   In this step, you should create a parser class that gets a byte array
+   and returns an object of the class you derived from Frame in step 2.
+   This class should be derived from the Achamenes.ID3.Frames.Parsers.FrameParser
+   class. Write different version if the implementation of the frame differs from
+   one version of ID3 v2 to another. (See PictureFrame for an example.)
+   
+   Note 1: You should throw a FrameParsingException exception if 
+   an invalid value is in a frame.
+   Note 2: Using the classes in the Fields namespace simplifies this step, and the 
+   next one considerably.
+
+   Example:
+   
+class LastPlayedOnFrameParser : FrameParser
+{
+	protected override Frame ParseFrame(byte[] data)
+	{
+		int place=0;
+
+		SingleByteField encodingField=new SingleByteField();
+		place+=encodingField.Parse(data, place);
+
+		TextField lastPlayedOnField=TextField.CreateTextField(true, EncodingScheme.Ascii);
+		place+=lastPlayedOnField.Parse(data, place);
+
+		TextField playCountField=TextField.CreateTextField(true, EncodingScheme.Ascii);
+		place+=playCountField.Parse(data, place);
+
+		TextField memoField=TextField.CreateTextField(true, EncodingScheme.Ascii);
+		place+=memoField.Parse(data, place);
+
+		DateTime lastPlayed;
+		if(!DateTime.TryParse(lastPlayedOnField.Text, out lastPlayed))
+		{
+			throw new FrameParsingException("Invalid value in date field of LastPlayedOn frame.");
+		}
+		int playCount;
+		if(!int.TryParse(playCountField.Text, out playCount))
+		{
+			throw new FrameParsingException("Invalid value in play count field of LastPlayedOn frame.");
+		}
+
+		return new LastPlayedOnFrame(lastPlayed, playCount, memoField.Text);
+	}
+}
+
+4- Similarly, write a Writer class for your frame.
+   It should be derived from the Achamenes.ID3.Frames.Writers.FrameWriter
+   class. For multiple implementations for the same frame see the source
+   code for PictureFrame.
+   
+   Example:
+   
+class LastPlayedOnFrameWriter : FrameWriter
+{
+	public LastPlayedOnFrameWriter(
+		LastPlayedOnFrame	frameToWrite, 
+		FrameHeaderWriter	frameHeaderWriter, 
+		string				frameID, 
+		EncodingScheme		encoding) 
+		: base(frameToWrite, frameHeaderWriter, frameID, encoding)
+	{
+	}
+
+	public override void WriteToStream(System.IO.Stream stream)
+	{
+		LastPlayedOnFrame frame=(LastPlayedOnFrame)this.FrameToWrite;
+		List<Field> fields=new List<Field>();
+
+		// Declare the fields to write.
+		fields.Add(new SingleByteField((byte)this.Encoding));  //Encoding identifier byte
+		fields.Add(TextField.CreateTextField(frame.LastPlayedOn.ToShortDateString(), 
+			EncodingScheme.Ascii));
+		fields.Add(TextField.CreateTextField(frame.PlayCount.ToString(),
+			EncodingScheme.Ascii));
+		fields.Add(TextField.CreateTextField(frame.Memo,this.Encoding));
+
+		// Calculate the length and write the header
+		int length=0;
+		foreach(Field f in fields)
+		{
+			length+=f.Length;
+		}			
+		HeaderWriter.WriteHeader(stream, new FrameHeader(this.FrameID, length));
+
+		// Write the fields
+		foreach(Field f in fields)
+		{
+			f.WriteToStream(stream);
+		}
+	}
+}
+
+5- Create an overloaded version of FrameParserFactory.
+
+   Example:
+
+public class MyFrameParserFactory : FrameParserFactory
+{
+	public override FrameParser CreateFrameParser(ID3v2MajorVersion version, string frameID)
+	{
+		FrameParser parser=LastPlayedOnFrame.CreateParser(version, frameID);
+		if(parser==null)
+		{
+			return base.CreateFrameParser(version, frameID);
+		}
+		return parser;
+	}
+}
+
+6- Use the TagBase class and pass an instance of your overloaded
+   FrameFactory to it when reading files.
+
+   Example:
+   
+public class LastPlayedOnFrameTest
+{		
+	public static void Main(string[] args)
+	{
+		TagBase tag=new TagBase();
+		tag.Frames.Add(new LastPlayedOnFrame(DateTime.Now, 1, "Test!"));
+		tag.WriteToFile("C:/Test.mp3", ID3v2MajorVersion.Version3, EncodingScheme.UnicodeWithBOM);
+
+		TagBase tag2=new TagBase();
+		tag2.ReadFromFile("C:/Test.mp3", new MyFrameParserFactory());
+		System.Diagnostics.Debug.Assert(tag2.Frames.Count==1);
+		System.Diagnostics.Debug.Assert(tag2.Frames[0] is LastPlayedOnFrame);
+	}
+}

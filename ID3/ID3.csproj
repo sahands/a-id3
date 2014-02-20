@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BD8A1D0A-A489-4A10-BA11-91C00848A7DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Achamenes.ID3</RootNamespace>
+    <AssemblyName>Achamenes.ID3</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Enumerations\EncodingScheme.cs" />
+    <Compile Include="Source\Enumerations\ID3v2MajorVersion.cs" />
+    <Compile Include="Source\Enumerations\LanguageCode.cs" />
+    <Compile Include="Source\Enumerations\PictureType.cs" />
+    <Compile Include="Source\Enumerations\TagHeaderFlags.cs" />
+    <Compile Include="Source\Exceptions\FatalException.cs" />
+    <Compile Include="Source\Exceptions\FieldParsingException.cs" />
+    <Compile Include="Source\Exceptions\FrameParsingException.cs" />
+    <Compile Include="Source\Exceptions\FeatureNotSupportedException.cs" />
+    <Compile Include="Source\Exceptions\InvalidFrameValueException.cs" />
+    <Compile Include="Source\Exceptions\NoFrameParserProvidedException.cs" />
+    <Compile Include="Source\Exceptions\NoFrameWriterProvidedException.cs" />
+    <Compile Include="Source\Exceptions\NonFatalException.cs" />
+    <Compile Include="Source\Fields\Base\Field.cs" />
+    <Compile Include="Source\Fields\Binary Fields\BinaryField.cs" />
+    <Compile Include="Source\Fields\Binary Fields\SingleByteField.cs" />
+    <Compile Include="Source\Fields\Text Fields\AsciiTextField.cs" />
+    <Compile Include="Source\Fields\Text Fields\BigEndianUnicodeTextField.cs" />
+    <Compile Include="Source\Fields\Text Fields\FixedLengthAsciiTextField.cs" />
+    <Compile Include="Source\Fields\Text Fields\TextField.cs" />
+    <Compile Include="Source\Fields\Text Fields\UnicodeTextField.cs" />
+    <Compile Include="Source\Fields\Text Fields\UTF8TextField.cs" />
+    <Compile Include="Source\Frame Implementations\FrameHeader.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Abstract Classes\UrlFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\GeneralEncapsulatedObjectFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\MusicCDIdentifierTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\PlayCounterFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\PrivateFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\CopyrightTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Abstract Classes\ExtendedTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Extended Text Frame Parsers\CommentExtendedTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Extended Text Frame Parsers\LyricsExtendedTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\FrameHeaderParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Abstract Classes\FrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\FrameParserFactory.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\PictureFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Abstract Classes\TextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\AlbumTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\ArtistTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\BeatsPerMinuteTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\ComposerTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\CustomUserTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\DateTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\EncodedByTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\EncodingTimeTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\FileTypeTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\GenreTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\GroupingTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\InitialKeyTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\LanguageTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\LengthTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\MediaTypeTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\OrchestraTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\OriginalAlbumTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\OriginalArtistTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\OriginalReleaseTimeTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\OriginalReleaseYearTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\PartOfSetTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\PublisherTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\RecordingTimeTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\ReleaseTimeTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\SoftwareSettingsTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\TaggingTimeTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\TimeTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\TitleTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\TrackTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\Text Frame Parsers\YearTextFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\UniqueFileIndentifierFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\URL Frames\CommercialUrlFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\URL Frames\CustomUserUrlFrame.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\URL Frames\OfficialArtistUrlFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\URL Frames\OfficialAudioFileUrlFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Parsers\URL Frames\OfficialAudioSourceUrlFrameParser.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\GeneralEncapsulatedObjectFrameWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\MusicCDIdentifierTextFrameWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\PlayCounterWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\PrivateFrameWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\UniqueFileIdentifierFrameWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\UrlFrameWriter.cs" />
+    <Compile Include="Source\Frames\Other\GeneralEncapsulatedObjectFrame.cs" />
+    <Compile Include="Source\Frames\Other\MusicCDIdentifierFrame.cs" />
+    <Compile Include="Source\Frames\Other\PlayCounterFrame.cs" />
+    <Compile Include="Source\Frames\Other\PrivateFrame.cs" />
+    <Compile Include="Source\Frames\Other\UniqueFileIdentifierFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\AlbumTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\ArtistTextFrame.cs" />
+    <Compile Include="Source\Frames\Extended Text Frames\CommentExtendedTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\BeatsPerMinuteTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\ComposerTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\CopyrightTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\CustomUserTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\DateTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\EncodedByTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\EncodingTimeTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\ExtendedTextFrame.cs" />
+    <Compile Include="Source\Frames\Base\Frame.cs" />
+    <Compile Include="Source\Frames\Text Frames\FileTypeTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\GenreTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\GroupingTextFrame.cs" />
+    <Compile Include="Source\Frames\Extended Text Frames\LyricsExtendedTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\InitialKeyTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\LanguageTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\LengthTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\MediaTypeTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\OrchestraTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\OriginalAlbumTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\OriginalArtistTextFrame.cs" />
+    <Compile Include="Source\Frames\Other\PictureFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\OriginalReleaseTimeTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\OriginalReleaseYearTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\PartOfSetTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\PublisherTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\RecordingTimeTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\ReleaseTimeTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\SoftwareSettingsTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\TaggingTimeTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\TextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\TimeTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\TitleTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\TrackTextFrame.cs" />
+    <Compile Include="Source\Frames\Text Frames\YearTextFrame.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\ExtendedTextFrameWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\FrameHeaderWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\FrameWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\PictureFrameWriter.cs" />
+    <Compile Include="Source\Frame Implementations\Writers\TextFrameWriter.cs" />
+    <Compile Include="Source\Frames\URL Frames\CommercialUrlFrame.cs" />
+    <Compile Include="Source\Frames\URL Frames\CustomUserUrlFrame.cs" />
+    <Compile Include="Source\Frames\URL Frames\OfficialArtistUrlFrame.cs" />
+    <Compile Include="Source\Frames\URL Frames\OfficialAudioFileUrlFrame.cs" />
+    <Compile Include="Source\Frames\URL Frames\OfficialAudioSourceUrlFrame.cs" />
+    <Compile Include="Source\Frames\URL Frames\UrlFrame.cs" />
+    <Compile Include="Source\Tag\GenreManager.cs" />
+    <Compile Include="Source\Tag\SimpleTag.cs" />
+    <Compile Include="Source\Tag\TagBase.cs" />
+    <Compile Include="Source\Tag\TagHeader.cs" />
+    <Compile Include="Source\V1\ID3v1Tag.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Documentation\ExtensibilityGuide.txt" />
+    <Content Include="Specifications\id3v2-00.txt" />
+    <Content Include="Specifications\id3v2.3.0.txt" />
+    <Content Include="Specifications\id3v2.4.0-changes.txt" />
+    <Content Include="Specifications\id3v2.4.0-frames.txt" />
+    <Content Include="Specifications\id3v2.4.0-structure.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
