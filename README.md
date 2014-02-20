@@ -1,5 +1,5 @@
-a-id3
-=====
+Achamenes ID3
+=============
 
 .NET library written in C# to read and write MP3 file ID3 tags, with support for ID3 versions 1, 2.2, 2.3 and 2.4.
 
