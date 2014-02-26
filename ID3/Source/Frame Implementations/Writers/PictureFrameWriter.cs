@@ -17,16 +17,14 @@ namespace Achamenes.ID3.Frames.Writers
 			PictureFrame frame=(PictureFrame)this.FrameToWrite;
 			List<Field> fields=new List<Field>();
 
+			String imageFormat = Utils.ImagingHelpers.ImageFormatToExtension(frame.Picture.RawFormat);
+
 			// Declare the fields to write.
 			fields.Add(new SingleByteField((byte)this.Encoding));
-			fields.Add(new FixedLengthAsciiTextField("JPG"));
+			fields.Add(new FixedLengthAsciiTextField(imageFormat));
 			fields.Add(new SingleByteField((byte)frame.PictureType));
 			fields.Add(TextField.CreateTextField(frame.Description, this.Encoding));
-
-			System.IO.MemoryStream memoryBuffer=new System.IO.MemoryStream();
-			frame.Picture.Save(memoryBuffer, System.Drawing.Imaging.ImageFormat.Jpeg);
-			fields.Add(new BinaryField(memoryBuffer.GetBuffer(), 0, (int)memoryBuffer.Length));
-			memoryBuffer.Close();
+			fields.Add(new BinaryField(frame.RawData, 0, (int)frame.RawData.Length));
 
 			// Write the header
 			int length=0;
@@ -56,16 +54,14 @@ namespace Achamenes.ID3.Frames.Writers
 			PictureFrame frame=(PictureFrame)this.FrameToWrite;
 			List<Field> fields=new List<Field>();
 
+			string imageMimeType = Utils.ImagingHelpers.ImageFormatToMimeType (frame.Picture.RawFormat);
+
 			// Declare the fields to write.
 			fields.Add(new SingleByteField((byte)this.Encoding));
-			fields.Add(TextField.CreateTextField("image/jpeg", EncodingScheme.Ascii));
+			fields.Add(TextField.CreateTextField(imageMimeType, EncodingScheme.Ascii));
 			fields.Add(new SingleByteField((byte)frame.PictureType));
 			fields.Add(TextField.CreateTextField(frame.Description, this.Encoding));
-
-			System.IO.MemoryStream memoryBuffer=new System.IO.MemoryStream();
-			frame.Picture.Save(memoryBuffer, System.Drawing.Imaging.ImageFormat.Jpeg);
-			fields.Add(new BinaryField(memoryBuffer.GetBuffer(), 0, (int)memoryBuffer.Length));
-			memoryBuffer.Close();
+			fields.Add(new BinaryField(frame.RawData, 0, (int)frame.RawData.Length));
 
 			// Write the header
 			int length=0;

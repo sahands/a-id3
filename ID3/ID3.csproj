@@ -186,6 +186,7 @@
     <Compile Include="Source\Tag\TagBase.cs" />
     <Compile Include="Source\Tag\TagHeader.cs" />
     <Compile Include="Source\V1\ID3v1Tag.cs" />
+    <Compile Include="Source\Utils\ImagingHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documentation\ExtensibilityGuide.txt" />
@@ -203,4 +204,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Source\Utils\" />
+  </ItemGroup>
 </Project>

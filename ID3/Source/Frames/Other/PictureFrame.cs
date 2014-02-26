@@ -20,21 +20,25 @@ namespace Achamenes.ID3.Frames
 			}
 		}
 
-		private byte[] _raw_data = null;
+		private byte[] _rawData = null;
+		public byte[] RawData 
+		{
+			get 
+			{
+				if (this._rawData == null) 
+				{
+					this.LoadRawDataFromImage();
+				}
+				return this._rawData;
+			}
+		}
+
 		private System.Drawing.Image _image;
 		public System.Drawing.Image Picture
 		{
 			get
 			{
 				return _image;
-			}
-		}
-
-		public byte[] RawData 
-		{
-			get 
-			{
-				return this._raw_data;
 			}
 		}
 
@@ -49,6 +53,14 @@ namespace Achamenes.ID3.Frames
 			{
 				_pictureType = value;
 			}
+		}
+
+		protected void LoadRawDataFromImage() 
+		{
+			System.IO.MemoryStream memoryBuffer=new System.IO.MemoryStream();
+			this._image.Save(memoryBuffer, this._image.RawFormat);
+			this._rawData = memoryBuffer.GetBuffer();
+			memoryBuffer.Close();
 		}
 
 		protected PictureFrame(string description, PictureType pictureType)
@@ -81,7 +93,7 @@ namespace Achamenes.ID3.Frames
 			{
 				throw new ArgumentNullException("The passed image raw data can not be null.");
 			}
-			this._raw_data = raw_data;
+			this._rawData = raw_data;
 		}
 
 
